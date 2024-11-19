@@ -31,14 +31,18 @@ function WhoIsHere() {
   );
 }
 
-function SomeoneIsTyping() {
+function SomeoneIsTyping({ field }: { field: "isTypingFullName" | "isTypingProfession" }) {
   const others = useStore((state) => state.liveblocks.others);
 
-  const someoneIsTyping = others.some((user) => user.presence.isTyping);
+  const someoneIsTyping = others.some((user) => user.presence?.[field]);
 
-  return someoneIsTyping ? (
-    <div className="someone_is_typing">Someone is typing</div>
-  ) : null;
+  if (!someoneIsTyping) return null;
+
+  return (
+    <div className="someone_is_typing">
+      Someone is typing in {field === "isTypingFullName" ? "Full Name" : "Profession"} field
+    </div>
+  );
 }
 
 const AddDocsRoom = () => {
@@ -46,10 +50,12 @@ const AddDocsRoom = () => {
   const {
     fullName,
     setFullName,
-    liveblocks: { enterRoom, leaveRoom },
+    profession,
+    setProfession,
+    liveblocks: { enterRoom, leaveRoom, },
   } = useStore();
 
-  console.log("fullname", fullName)
+  console.log("fullname", profession)
 
   useEffect(() => {
     enterRoom("zustand-add-doc");
@@ -84,7 +90,7 @@ const AddDocsRoom = () => {
   };
 
   return (
-    <div className="">
+    <div className="bg-white p-20 max-w-[480px] mx-0 my-auto rounded-xl">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -97,16 +103,16 @@ const AddDocsRoom = () => {
                   <Input
                   {...field}
                   onChange={(e) => {
-                    field.onChange(e); // Let React Hook Form handle value updates
-                    setFullName(e.target.value); // Update the Zustand state or perform any custom logic
+                    field.onChange(e); 
+                    setFullName(e.target.value); 
                   }}
-                  value={fullName} // Ensure the input reflects the controlled value
+                  value={fullName} 
         
                     className="shad-input"
                     placeholder="EX: Oualid Elhouari" 
                   />
                 </FormControl>
-                <SomeoneIsTyping />
+                <SomeoneIsTyping field="isTypingFullName" />
                 <FormMessage />
               </FormItem>
             )}
@@ -122,8 +128,14 @@ const AddDocsRoom = () => {
                     className="shad-input"
                     placeholder="EX: Web Dev"
                     {...field}
+                    onChange={(e) => {
+                      field.onChange(e); // Let React Hook Form handle value updates
+                      setProfession(e.target.value); // Update the Zustand state or perform any custom logic
+                    }}
+                    value={profession}
                   />
                 </FormControl>
+                <SomeoneIsTyping field="isTypingProfession" />
                 <FormMessage />
               </FormItem>
             )}
