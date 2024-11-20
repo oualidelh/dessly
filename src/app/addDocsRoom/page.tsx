@@ -60,7 +60,7 @@ const AddDocsRoom = () => {
   useEffect(() => {
     enterRoom("zustand-add-doc");
     return () => {
-      leaveRoom("zustand-add-doc");
+      leaveRoom();
     };
   }, [enterRoom, leaveRoom]);
   
@@ -82,6 +82,8 @@ const AddDocsRoom = () => {
       } else {
         console.log(data);
         setFormError(null);
+        setFullName("");
+        setProfession("");
       }
     } catch (err) {
       console.error("Unexpected error:", err);
