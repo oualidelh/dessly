@@ -17,12 +17,14 @@ declare global {
     // Custom user info set when authenticating with a secret key
     UserMeta: {
       id: string;
+
+      // Example, use any JSON-compatible data in your metadata
       info: {
-        // Example properties, for useSelf, useUser, useOthers, etc.
-        // name: string;
-        // avatar: string;
-      };
-    };
+        name: string;
+        avatar: string;
+        colors: string[];
+      }
+    }
 
     // Custom events, for useBroadcastEvent, useEventListener
     RoomEvent: {};

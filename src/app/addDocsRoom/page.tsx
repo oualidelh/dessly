@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { supabase } from "../../../utils/supabaseClient";
+import { supabase } from "../../../utils/supabase/supabaseClient";
 import useStore from "../store";
 
 const formSchema = z.object({
@@ -22,11 +22,16 @@ const formSchema = z.object({
 });
 
 function WhoIsHere() {
-  const othersUsersCount = useStore((state) => state.liveblocks.others.length);
+  const othersUsersCount = useStore((state) => state.liveblocks.others);
+
+  othersUsersCount.map((user) =>{
+    return console.log(user.info)
+  })
+
 
   return (
     <div className="who_is_here">
-      There are {othersUsersCount} other users online
+      There are {othersUsersCount.length} other users online
     </div>
   );
 }
@@ -35,6 +40,8 @@ function SomeoneIsTyping({ field }: { field: "isTypingFullName" | "isTypingProfe
   const others = useStore((state) => state.liveblocks.others);
 
   const someoneIsTyping = others.some((user) => user.presence?.[field]);
+
+  console.log("someone", someoneIsTyping)
 
   if (!someoneIsTyping) return null;
 
@@ -92,15 +99,15 @@ const AddDocsRoom = () => {
   };
 
   return (
-    <div className="bg-white p-20 max-w-[480px] mx-0 my-auto rounded-xl">
+    <div className="bg-white p-5 max-w-lg mx-auto rounded-xl">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
             name="fullName"
             render={({ field }) => (
-              <FormItem className="shad-form-item">
-                <FormLabel className="shad-form-label">FullName</FormLabel>
+              <FormItem className="">
+                <FormLabel className="">FullName</FormLabel>
                 <FormControl>
                   <Input
                   {...field}
@@ -110,7 +117,7 @@ const AddDocsRoom = () => {
                   }}
                   value={fullName} 
         
-                    className="shad-input"
+                    className="w-full p-2 border placeholder:text-gray-400 font-semibold border-gray-300 rounded-md mb-5"
                     placeholder="EX: Oualid Elhouari" 
                   />
                 </FormControl>
@@ -123,11 +130,11 @@ const AddDocsRoom = () => {
             control={form.control}
             name="profession"
             render={({ field }) => (
-              <FormItem className="shad-form-item">
-                <FormLabel className="shad-form-label">Profession</FormLabel>
+              <FormItem className="">
+                <FormLabel className="">Profession</FormLabel>
                 <FormControl>
                   <Input
-                    className="shad-input"
+                    className="w-full p-2 placeholder:text-gray-400 font-semibold border border-gray-300 rounded-md mb-5"
                     placeholder="EX: Web Dev"
                     {...field}
                     onChange={(e) => {
@@ -143,7 +150,7 @@ const AddDocsRoom = () => {
             )}
           />
           <Button
-            className="primary-btn w-full text-white h-[66px]"
+            className="bg-brand text-white hover:bg-brand-100 rounded-lg py-2 px-3 font-poppins cursor-pointer"
             type="submit"
           >
             Add Doc
