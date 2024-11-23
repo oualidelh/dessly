@@ -31,7 +31,8 @@ type State = {
 };
 
 const client = createClient({
-  publicApiKey: "pk_prod_gCyerjnDvITjjjdx0LtsI1tVhtTyHf9PFOkTsBQRcxY_qCcOUYFZ4G25vJEpjnKG",
+  authEndpoint:"/api/liveblocks-auth"
+  // publicApiKey: "pk_prod_gCyerjnDvITjjjdx0LtsI1tVhtTyHf9PFOkTsBQRcxY_qCcOUYFZ4G25vJEpjnKG",
 });
 
 const useStore = create<WithLiveblocks<State, Presence>>()(

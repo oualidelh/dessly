@@ -1,10 +1,10 @@
 import { CollaborativeApp } from "./CollaborativeApp";
-import { Room } from "./Room";
+// import { Room } from "./Room";
 
 export default function Home() {
   return (
-    <Room>
+    // <Room>
       <CollaborativeApp />
-    </Room>
+    // </Room>
   );
 }

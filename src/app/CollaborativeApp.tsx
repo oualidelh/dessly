@@ -1,9 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
-import { supabase } from "../../utils/supabaseClient";
+import { supabase } from "../../utils/supabase/supabaseClient";
 import BioCard from "@/components/BioCard";
 import useStore from "./store";
 import { Cursor } from "@/components/Cursor";
+// import { useSelf } from "./CollaborativeApp";
+export { useSelf } from "@liveblocks/react/suspense";
 
 type BioItem = {
   id: string;
@@ -13,10 +15,13 @@ type BioItem = {
 
 
 export function CollaborativeApp() {
+  // const { name, avatar, colors } = useSelf((me) => me.info);
   const others = useStore((state) => state.liveblocks.others)
   const {cursor,setCursor} = useStore();
   const [bio, setBio] = useState<BioItem[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // console.log("useinfo", name, avatar, colors)
 
   useEffect(() => {
     useStore.getState().liveblocks.enterRoom("collaborative-room");

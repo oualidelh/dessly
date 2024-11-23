@@ -10,7 +10,7 @@ import {
 const BioCard = ({ fullName, profession}: { fullName: string; profession: string; }) => {
 
   return (
-    <Card className="w-full bg-white border-none rounded-xl">
+    <Card className="w-full bg-white border-none rounded-md">
       <CardHeader>
         <div>Full Name:</div>
         <CardTitle>{fullName}</CardTitle>
